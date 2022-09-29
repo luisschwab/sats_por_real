@@ -39,7 +39,7 @@ except requests.exceptions.HTTPError:
     exit()
 
 
-tweet = '丰' + str(BRLSAT) + ' @ ' + str(block)
+tweet = '丰' + str(BRLSAT) + ' @ ' + str(f'{block:,}')
 print(tweet)
 
 push = client.create_tweet(text=tweet)
