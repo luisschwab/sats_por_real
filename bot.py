@@ -31,12 +31,16 @@ BRLSAT = round(10**8/float(BTCBRL))
 
 
 try:
+    url = 'https://mempool.space/api/blocks/tip/height'
+    response = requests.get(url, timeout=5); response.raise_for_status()
+    block = response.json()
+    if not isinstance(block, int):
+        raise Exception
+
+except:
     url = 'https://bitcoinexplorer.org/api/blocks/tip/height/'
     response = requests.get(url, timeout=5)
     block = response.json()
-
-except requests.exceptions.HTTPError:
-    exit()
 
 
 tweet = '丰' + str(BRLSAT) + ' @ ' + str(f'{block:,}')
