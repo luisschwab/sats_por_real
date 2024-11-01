@@ -30,7 +30,6 @@ async fn main() -> Result<(), reqwest::Error> {
         "X_CONSUMER_SECRET",
         "X_ACCESS_TOKEN",
         "X_ACCESS_TOKEN_SECRET",
-        "NOSTR_PUB",
         "NOSTR_SEC",
     ];
 
