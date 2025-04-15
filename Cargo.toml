@@ -5,7 +5,7 @@ edition = "2021"
 
 [dependencies]
 dotenv = "0.15.0"
-nostr-sdk = "0.35.0"
+nostr-sdk = "0.37.0"
 reqwest = "0.12.8"
 separator = "0.4.1"
 serde = "1.0.213"

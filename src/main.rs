@@ -96,7 +96,7 @@ async fn main() -> Result<(), reqwest::Error> {
 
     // poast on nostr
     if POAST_NOSTR {
-        let privkey = match Keys::parse(&kv["NOSTR_SEC"]) {
+        let key = match Keys::parse(&kv["NOSTR_SEC"]) {
             Ok(key) => key,
             Err(e) => {
                 println!("error while parsing nostr private key: {:#?}", e);
@@ -104,14 +104,17 @@ async fn main() -> Result<(), reqwest::Error> {
             }
         };
 
-        let nostr_client = Client::new(&privkey);
-
+        let nostr_client = Client::new(key.clone());
         for relay in NOSTR_RELAYS {
             nostr_client.add_relay(*relay).await.unwrap();
             nostr_client.connect().await;
         }
 
-        match nostr_client.publish_text_note(payload, []).await {
+        let event = EventBuilder::text_note(payload)
+            .sign_with_keys(&key)
+            .expect("failed to create event");
+
+        match nostr_client.send_event(event).await {
             Ok(output) => {
                 println!("successfully poasted to nostr: https://njump.me/{}", output.id().to_hex());
             }
